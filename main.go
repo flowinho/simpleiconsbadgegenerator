@@ -119,12 +119,12 @@ func downloadBadge(labelText string, iconName string, iconBackgroundColor string
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: ./simpleicons-macos <service1>, <service2>, ...")
+		fmt.Println("Usage: ./simpleicons-macos <\"service 1\", \"service 2\", ...>")
 		return
 	}
 
-	servicesInput := os.Args[1]
-	services := strings.Split(servicesInput, ",")
+	servicesInput := os.Args[1:]
+	services := strings.Join(servicesInput, " ")
 
 	iconsURL := "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/_data/simple-icons.json"
 	icons, err := FetchIcons(iconsURL)
@@ -141,7 +141,8 @@ func main() {
 
 	var htmlContent []string
 
-	for _, serviceName := range services {
+	serviceList := strings.Split(services, ",")
+	for _, serviceName := range serviceList {
 		serviceName = strings.TrimSpace(serviceName)
 		icon := FindIconByName(icons, serviceName)
 		if icon != nil {
